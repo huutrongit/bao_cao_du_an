@@ -1,0 +1,339 @@
+#!/usr/bin/env python3
+"""
+🍄 Raspberry Pi Mushroom Detection Server
+ESP32 (Master) gọi → Pi chụp ảnh → Nhận diện YOLO → Trả kết quả
+"""
+
+from flask import Flask, jsonify
+import cv2
+from ultralytics import YOLO
+import time
+import logging
+import os
+from datetime import datetime
+import threading
+
+# ========== CẤU HÌNH ==========
+MODEL_PATH = "/home/dung/Desktop/nam/best.pt"  # Đường dẫn model
+LABEL_HU = "HU"  # Nhãn nấm hư trong model
+
+# ========== LOGGING ==========
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - [PI] - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('/tmp/mushroom_detection.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
+
+# ========== KHỞI TẠO ==========
+def initialize_system():
+    """Khởi tạo hệ thống"""
+    logger.info("=" * 50)
+    logger.info("🚀 RASPBERRY PI DETECTION SERVER")
+    logger.info("=" * 50)
+    
+    # Kiểm tra model
+    if not os.path.exists(MODEL_PATH):
+        logger.error(f"❌ Model không tồn tại: {MODEL_PATH}")
+        logger.info(f"📂 Thư mục hiện tại: {os.getcwd()}")
+        return False
+    
+    # Kiểm tra camera
+    camera = cv2.VideoCapture(0)
+    if not camera.isOpened():
+        logger.error("❌ Không thể mở camera")
+        logger.info("📷 Thử mở camera index -1...")
+        camera = cv2.VideoCapture(-1)
+        if not camera.isOpened():
+            logger.error("❌ Camera không hoạt động")
+            camera.release()
+            return False
+    
+    camera.release()
+    logger.info("✅ Camera đã sẵn sàng")
+    return True
+
+# Load model YOLO
+try:
+    model = YOLO(MODEL_PATH)
+    logger.info(f"✅ Đã load model YOLO: {MODEL_PATH}")
+except Exception as e:
+    logger.error(f"❌ Lỗi load model: {e}")
+    exit(1)
+
+# ========== HÀM NHẬN DIỆN CHÍNH ==========
+def detect_mushroom():
+    """
+    Chụp ảnh và nhận diện nấm
+    Returns: (classification, region)
+    """
+    camera = None
+    start_time = time.time()
+    
+    try:
+        # Mở camera
+        camera = cv2.VideoCapture(0)
+        if not camera.isOpened():
+            # Thử index khác
+            camera = cv2.VideoCapture(-1)
+            if not camera.isOpened():
+                logger.error("❌ Không thể mở camera")
+                return "PHOI", "none"
+        
+        # Đặt thông số camera
+        camera.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        
+        # Chờ camera ổn định
+        time.sleep(1.5)
+        
+        # Chụp ảnh
+        success, image = camera.read()
+        if not success:
+            logger.error("❌ Không thể chụp ảnh")
+            return "PHOI", "none"
+        
+        capture_time = time.time() - start_time
+        logger.info(f"📸 Đã chụp ảnh ({capture_time:.2f}s): {image.shape}")
+        
+        # Nhận diện với YOLO
+        results = model(image, verbose=False)[0]
+        boxes = results.boxes
+        
+        # Lấy danh sách vật thể phát hiện
+        detected = []
+        if boxes is not None:
+            for box in boxes:
+                class_id = int(box.cls[0])
+                label = model.names[class_id]
+                detected.append(label)
+                logger.debug(f"  - Phát hiện: {label}")
+        
+        logger.info(f"🎯 Số vật thể: {len(detected)} - Danh sách: {detected}")
+        
+        # ========== PHÂN LOẠI GIAI ĐOẠN ==========
+        if not detected:
+            classification = "PHOI"
+        elif "NON" in detected:
+            classification = "NON"
+        elif "TRUONG-THANH" in detected:
+            classification = "TRUONG-THANH"
+        elif LABEL_HU in detected:
+            classification = "HU"
+        else:
+            classification = "PHOI"
+        
+        logger.info(f"🏷️ Phân loại: {classification}")
+        
+        # ========== XÁC ĐỊNH VỊ TRÍ NẤM HƯ ==========
+        region_flags = set()
+        
+        if boxes is not None and LABEL_HU in detected:
+            # Lấy kích thước ảnh
+            height, width = image.shape[:2]
+            mid_y = height // 2
+            
+            # Vẽ đường chia đôi (để debug)
+            cv2.line(image, (0, mid_y), (width, mid_y), (200, 200, 200), 2)
+            cv2.putText(image, "TREN", (10, mid_y//2), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (200, 200, 200), 2)
+            cv2.putText(image, "DUOI", (10, mid_y + mid_y//2), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (200, 200, 200), 2)
+            
+            # Kiểm tra từng nấm hư
+            for box in boxes:
+                class_id = int(box.cls[0])
+                label = model.names[class_id]
+                
+                if label != LABEL_HU:
+                    continue
+                
+                # Lấy tọa độ bounding box
+                x1, y1, x2, y2 = map(int, box.xyxy[0])
+                center_y = (y1 + y2) // 2
+                
+                # Xác định vị trí
+                region = "TREN" if center_y < mid_y else "DUOI"
+                region_flags.add(region)
+                
+                # Vẽ box và nhãn (để debug)
+                color = (0, 0, 255)  # Màu đỏ cho nấm hư
+                cv2.rectangle(image, (x1, y1), (x2, y2), color, 2)
+                cv2.putText(image, f"{label}-{region}", 
+                           (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 
+                           0.6, color, 2)
+                cv2.circle(image, ((x1+x2)//2, center_y), 5, color, -1)
+        
+        # ========== TỔNG HỢP VỊ TRÍ ==========
+        if "TREN" in region_flags and "DUOI" in region_flags:
+            region_text = "TREN+DUOI"
+        elif "TREN" in region_flags:
+            region_text = "TREN"
+        elif "DUOI" in region_flags:
+            region_text = "DUOI"
+        else:
+            region_text = "none"
+        
+        logger.info(f"📍 Vị trí nấm hư: {region_text}")
+        
+        # ========== LƯU ẢNH KẾT QUẢ ==========
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_dir = "detection_results"
+        os.makedirs(output_dir, exist_ok=True)
+        
+        output_path = f"{output_dir}/detect_{timestamp}.jpg"
+        cv2.imwrite(output_path, image)
+        logger.info(f"💾 Đã lưu ảnh: {output_path}")
+        
+        # Thời gian xử lý
+        total_time = time.time() - start_time
+        logger.info(f"⏱️ Tổng thời gian xử lý: {total_time:.2f} giây")
+        
+        return classification, region_text
+        
+    except Exception as e:
+        logger.error(f"❌ Lỗi trong quá trình nhận diện: {e}", exc_info=True)
+        return "PHOI", "none"
+        
+    finally:
+        if camera is not None:
+            camera.release()
+
+# ========== FLASK SERVER ==========
+app = Flask(__name__)
+
+@app.route("/detect", methods=["GET"])
+def detect_endpoint():
+    """
+    Endpoint chính: ESP32 gọi đến để nhận diện
+    """
+    logger.info("\n" + "=" * 50)
+    logger.info(f"📡 [{datetime.now()}] Nhận yêu cầu từ ESP32")
+    
+    # Thông tin client
+    client_ip = request.remote_addr if 'request' in globals() else "unknown"
+    logger.info(f"👤 Client IP: {client_ip}")
+    
+    # Thực hiện nhận diện
+    classification, region = detect_mushroom()
+    
+    # Tạo response
+    response = {
+        "status": "success",
+        "class": classification,
+        "region": region,
+        "timestamp": datetime.now().isoformat(),
+        "server": "Raspberry Pi YOLOv8",
+        "model": os.path.basename(MODEL_PATH)
+    }
+    
+    logger.info(f"📤 Trả kết quả: {classification} - {region}")
+    logger.info("=" * 50)
+    
+    return jsonify(response)
+
+@app.route("/health", methods=["GET"])
+def health_check():
+    """Kiểm tra trạng thái server"""
+    return jsonify({
+        "status": "healthy",
+        "service": "Mushroom Detection Server",
+        "model_loaded": os.path.exists(MODEL_PATH),
+        "camera_available": check_camera(),
+        "timestamp": datetime.now().isoformat(),
+        "uptime": get_uptime()
+    })
+
+@app.route("/", methods=["GET"])
+def home_page():
+    """Trang chủ"""
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>🍄 Mushroom Detection Server</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 40px; }
+            h1 { color: #2c3e50; }
+            .card { background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0; }
+            .endpoint { background: #e8f4f8; padding: 10px; border-left: 4px solid #3498db; }
+            .status { color: #27ae60; font-weight: bold; }
+        </style>
+    </head>
+    <body>
+        <h1>🍄 Raspberry Pi Mushroom Detection Server</h1>
+        
+        <div class="card">
+            <h2>📊 Trạng thái hệ thống</h2>
+            <p><strong>Model:</strong> YOLOv8 Custom</p>
+            <p><strong>Path:</strong> """ + MODEL_PATH + """</p>
+            <p><strong>Status:</strong> <span class="status">Đang chạy</span></p>
+            <p><strong>Port:</strong> 2177</p>
+        </div>
+        
+        <div class="card">
+            <h2>🔌 Endpoints</h2>
+            
+            <div class="endpoint">
+                <h3>GET /detect</h3>
+                <p><strong>Mục đích:</strong> ESP32 gọi để nhận diện nấm</p>
+                <p><strong>Response:</strong> JSON với kết quả nhận diện</p>
+                <p><strong>Example:</strong> <code>{"class": "NON", "region": "TREN"}</code></p>
+            </div>
+            
+            <div class="endpoint">
+                <h3>GET /health</h3>
+                <p>Kiểm tra trạng thái server</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🤖 Hoạt động</h2>
+            <p>Server chỉ nhận diện khi ESP32 gọi đến</p>
+            <p>ESP32 (Master) điều khiển thời điểm nhận diện</p>
+            <p>Kết quả được trả về ngay cho ESP32</p>
+        </div>
+        
+        <div class="card">
+            <h2>📝 Logs</h2>
+            <p>Xem log file: <code>/tmp/mushroom_detection.log</code></p>
+            <p>Ảnh kết quả: <code>detection_results/</code></p>
+        </div>
+    </body>
+    </html>
+    """
+
+# ========== HÀM TIỆN ÍCH ==========
+def check_camera():
+    """Kiểm tra camera có hoạt động không"""
+    try:
+        camera = cv2.VideoCapture(0)
+        is_opened = camera.isOpened()
+        camera.release()
+        return is_opened
+    except:
+        return False
+
+def get_uptime():
+    """Lấy thời gian server đã chạy"""
+    try:
+        with open('/proc/uptime', 'r') as f:
+            uptime_seconds = float(f.readline().split()[0])
+            hours = int(uptime_seconds // 3600)
+            minutes = int((uptime_seconds % 3600) // 60)
+            return f"{hours}h {minutes}m"
+    except:
+        return "unknown"
+
+# ========== KHỞI ĐỘNG ==========
+if __name__ == "__main__":
+    # Khởi tạo hệ thống
+    if not initialize_system():
+        logger.error("❌ Khởi tạo thất bại")
+        exit(1)
+    
+    # Thông tin server

@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BÁO CÁO KHOA HỌC KỸ THUẬT - Ứng dụng AI & IoT trong trồng nấm bào ngư</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #2c3e50;
+            --secondary-blue: #3498db;
+            --accent-green: #27ae60;
+            --accent-gold: #f39c12;
+            --dark-blue: #1a252f;
+            --light-gray: #f8f9fa;
+            --medium-gray: #ecf0f1;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #fff;
+            counter-reset: section;
+        }
+
+        /* Header với Logo Trường - ĐÃ SỬA */
+        .report-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            padding: 2rem 5%;
+            border-bottom: 5px solid var(--accent-green);
+            position: relative;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .school-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .school-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* LOGO TRƯỜNG - ĐÃ SỬA: Không có nền trắng */
+        .school-logo {
+            height: 100px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+            background: transparent;
+        }
+
+        .school-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        /* ĐỊA CHỈ MỚI - ĐÃ SỬA */
+        .school-text .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            color: #ecf0f1;
+        }
+
+        .school-text .address {
+            font-size: 0.95rem;
+            color: #bdc3c7;
+            margin-top: 0.3rem;
+        }
+
+        .report-title {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .report-title h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .report-title .year {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Award Badge */
+        .award-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--accent-gold), #e67e22);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Navigation */
+        .report-nav {
+            background: var(--medium-gray);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-green);
+            background: rgba(39, 174, 96, 0.1);
+            border-bottom: 2px solid var(--accent-green);
+        }
+
+        /* Main Content */
+        .report-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 5%;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--secondary-blue);
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--medium-gray);
+            position: relative;
+        }
+
+        .section-title:before {
+            counter-increment: section;
+            content: counter(section) ". ";
+            color: var(--accent-green);
+            font-weight: bold;
+        }
+
+        .subsection {
+            margin: 2rem 0;
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--medium-gray);
+        }
+
+        .subsection-title {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* Content Styles */
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .highlight {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        ul, ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* THIẾT BỊ & CHI PHÍ SECTION */
+        .equipment-section {
+            margin: 2rem 0;
+        }
+
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .equipment-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+            border: 1px solid var(--medium-gray);
+        }
+
+        .equipment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .equipment-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--accent-green);
+        }
+
+        .equipment-info {
+            padding: 1.5rem;
+        }
+
+        .equipment-name {
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .equipment-price {
+            color: var(--accent-green);
+            font-weight: 700;
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .equipment-quantity {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        /* CODE DOWNLOAD SECTION */
+        .code-download-section {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            padding: 3rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+            color: white;
+        }
+
+        .code-download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .code-file-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+            border: 2px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .code-file-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-green);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .code-file-icon {
+            font-size: 3rem;
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .code-file-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .code-file-desc {
+            color: #bdc3c7;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .download-code-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            background: var(--accent-green);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: 2px solid var(--accent-green);
+        }
+
+        .download-code-btn:hover {
+            background: transparent;
+            color: var(--accent-green);
+            transform: translateY(-2px);
+        }
+
+        /* VIDEO SECTION */
+        .video-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 3rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-caption {
+            padding: 1.5rem;
+            background: white;
+            text-align: center;
+        }
+
+        .video-caption h3 {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .video-caption p {
+            color: var(--text-light);
+            font-style: italic;
+            margin: 0;
+        }
+
+        /* GALLERY SECTION */
+        .gallery-section {
+            margin: 3rem 0;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .media-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .media-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .media-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--accent-green);
+        }
+
+        .media-caption {
+            padding: 1rem;
+        }
+
+        .media-caption h4 {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .media-caption p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        /* AWARD SECTION */
+        .award-section {
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.1) 0%, rgba(230, 126, 34, 0.05) 100%);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .award-section:before {
+            content: "🏆";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+
+        .award-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .award-title {
+            color: var(--accent-gold);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .award-details {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .award-image {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .award-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .award-text {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        /* THÀNH VIÊN SECTION */
+        .team-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 3rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        /* HÌNH CHÂN DUNG THÀNH VIÊN */
+        .member-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+            border: 4px solid var(--accent-green);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-member h3 {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .team-member .member-class {
+            color: var(--secondary-blue);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .team-member .member-role {
+            background: var(--accent-green);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .team-member p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* CODE PREVIEW SECTION */
+        .code-preview-section {
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .code-header {
+            background: #2d2d2d;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #404040;
+        }
+
+        .code-filename {
+            color: #bdc3c7;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-language {
+            color: #27ae60;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .code-content {
+            padding: 1.5rem;
+            overflow-x: auto;
+        }
+
+        pre {
+            color: #e0e0e0;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        .code-line-number {
+            color: #666;
+            margin-right: 1rem;
+            user-select: none;
+        }
+
+        .code-keyword {
+            color: #3498db;
+        }
+
+        .code-string {
+            color: #e74c3c;
+        }
+
+        .code-comment {
+            color: #7f8c8d;
+        }
+
+        .code-function {
+            color: #f39c12;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th {
+            background: var(--primary-blue);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        tr:nth-child(even) {
+            background: var(--light-gray);
+        }
+
+        /* Footer */
+        .report-footer {
+            background: var(--primary-blue);
+            color: white;
+            padding: 3rem 5%;
+            margin-top: 4rem;
+            border-top: 5px solid var(--accent-green);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .school-logo-container {
+                justify-content: center;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                padding-bottom: 0.5rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .award-badge {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin: 1rem auto;
+                width: fit-content;
+            }
+
+            .code-download-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .report-nav {
+                display: none;
+            }
+            
+            .section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header với thông tin trường -->
+    <header class="report-header">
+        <div class="award-badge">
+            <i class="fas fa-trophy"></i>
+            ĐOẠT GIẢI TỈNH 2025
+        </div>
+        
+        <div class="header-content">
+            <div class="school-info">
+                <div class="school-logo-container">
+                    
+                    <img src="images/logotruong.jpg" alt="Logo Trường THPT Số 2 Mộ Đức" class="school-logo">
+                    <div class="school-text">
+                        <h1>TRƯỜNG THPT SỐ 2 MỘ ĐỨC</h1>
+                        <div class="subtitle">Nơi ươm mầm sáng tạo và đam mê khoa học</div>
+                        
+                        <div class="address">Long Phụng - Quảng Ngãi</div>
+                    </div>
+                </div>
+                
+                <div class="report-title">
+                    <h2>BÁO CÁO KHOA HỌC KỸ THUẬT</h2>
+                    <div class="year">Năm học: 2025 - 2026</div>
+                </div>
+            </div>
+            
+            <div class="project-info">
+                <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 8px;">
+                    <h3 style="color: var(--accent-green); margin-bottom: 1rem;">THÔNG TIN ĐỀ TÀI</h3>
+                    <p><strong>Tên đề tài:</strong> Ứng dụng AI và công nghệ IoT trong mô hình trồng nấm bào ngư tại HTX Đức Nhuận</p>
+                    <p><strong>Lĩnh vực:</strong> Giải pháp kĩ thuật ứng phó với biến đổi khí hậu</p>
+                    <p><strong>Giáo viên HD:</strong> Ngô Khắc Vũ</p>
+                    <p><strong>Số điện thoại:</strong> 0918 559 450</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="report-nav">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="#section1" class="active">1. Ý tưởng đề tài</a></li>
+                <li><a href="#section2">2. Quy trình trồng nấm</a></li>
+                <li><a href="#section3">3. Tính sáng tạo</a></li>
+                <li><a href="#section4">4. Thiết bị & Chi phí</a></li>
+                <li><a href="#section5">5. Nguyên lý hoạt động</a></li>
+                <li><a href="#section6">6. Video & Phỏng vấn</a></li>
+                <li><a href="#section7">7. Hình ảnh thực tế</a></li>
+                <li><a href="#section8">8. Thành tựu</a></li>
+                <li><a href="#section9">9. Code & Thuật toán</a></li>
+                <li><a href="#section10">10. Thành viên</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="report-content">
+        <!-- Section 1: Ý tưởng đề tài -->
+        <section id="section1" class="section">
+            <h2 class="section-title">Ý TƯỞNG THỰC HIỆN ĐỀ TÀI</h2>
+            
+            <p>Tại xã Đức Nhuận, huyện Mộ Đức, tỉnh Quảng Ngãi, <span class="highlight">trại nấm Giang Phong</span> là một trong những mô hình sản xuất nấm tiêu biểu. Tuy nhiên, trong quá trình sản xuất vẫn gặp nhiều khó khăn như:</p>
+            
+            <ul>
+                <li>Điều kiện môi trường không ổn định</li>
+                <li>Chưa có hệ thống giám sát liên tục</li>
+                <li>Việc chăm sóc chủ yếu dựa trên kinh nghiệm cảm tính</li>
+                <li>Dễ bị ảnh hưởng bởi biến động thời tiết</li>
+            </ul>
+            
+            <p>Trước thực tế đó, chúng em đề xuất đề tài <span class="highlight">"Ứng dụng AI và công nghệ IoT trong mô hình trồng nấm bào ngư"</span> với mục tiêu:</p>
+            
+            <ul>
+                <li>Xây dựng hệ thống thông minh tích hợp cảm biến đo nhiệt độ, độ ẩm, ánh sáng</li>
+                <li>Sử dụng thuật toán học máy (machine learning) để phân tích và dự đoán</li>
+                <li>Tự động điều chỉnh thiết bị (đèn, hệ thống tưới phun sương)</li>
+                <li>Phân tích hình ảnh nấm qua camera để phát hiện sâu bệnh</li>
+                <li>Giám sát hệ thống qua điện thoại thông minh</li>
+            </ul>
+        </section>
+
+        <!-- Section 2: Quy trình trồng nấm -->
+        <section id="section2" class="section">
+            <h2 class="section-title">QUY TRÌNH TRỒNG NẤM BÀO NGƯ</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Các giai đoạn sinh trưởng của nấm bào ngư</h3>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Giai đoạn</th>
+                                <th>Thời gian</th>
+                                <th>Nhiệt độ</th>
+                                <th>Độ ẩm</th>
+                                <th>Đặc điểm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>1. Ươm sợi (Phôi)</strong></td>
+                                <td>10-14 ngày</td>
+                                <td>25-28°C</td>
+                                <td>75-85%</td>
+                                <td>Sợi nấm lan dần và phủ trắng bề mặt</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2. Ra quả thể (Non)</strong></td>
+                                <td>3-5 ngày</td>
+                                <td>25-30°C</td>
+                                <td>80-90%</td>
+                                <td>Xuất hiện chồi nhỏ hình đầu đinh</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3. Trưởng thành</strong></td>
+                                <td>2-4 ngày</td>
+                                <td>25-28°C</td>
+                                <td>80-85%</td>
+                                <td>Nấm đạt kích thước lớn, mũ tròn</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Tính sáng tạo -->
+        <section id="section3" class="section">
+            <h2 class="section-title">TÍNH MỚI, TÍNH SÁNG TẠO</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Điểm đột phá của dự án</h3>
+                
+                <ul>
+                    <li>Sử dụng <span class="highlight">Raspberry Pi 4</span> kết hợp với cảm biến nhiệt độ, độ ẩm, ánh sáng và camera AI</li>
+                    <li>Hệ thống tự động điều chỉnh môi trường theo từng giai đoạn sinh trưởng</li>
+                    <li>Thiết kế đơn giản, chi phí thấp, dễ lắp đặt tại địa phương</li>
+                    <li>Vận hành thông minh với chế độ tự động hoặc hẹn giờ</li>
+                    <li>Phát hiện sớm nấm bị bệnh thông qua xử lý hình ảnh bằng AI</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 4: Thiết bị & Chi phí -->
+        <section id="section4" class="section">
+            <h2 class="section-title">THIẾT BỊ VÀ CHI PHÍ</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Hình ảnh thiết bị sử dụng</h3>
+
+                <div class="equipment-grid">
+                    <!-- ESP32 -->
+                    <div class="equipment-card">
+                        <img src="images/esp32.jpg" alt="ESP32 32 pins" class="equipment-image">
+                        <div class="equipment-info">
+                            <div class="equipment-name">ESP32 32 pins</div>
+                            <div class="equipment-quantity">Số lượng: 01</div>
+                            <div class="equipment-price">100.000đ</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Raspberry Pi 4 -->
+                    <div class="equipment-card">
+                        <img src="images/pi.jpg" alt="Raspberry Pi 4 Model B" class="equipment-image">
+                        <div class="equipment-info">
+                            <div class="equipment-name">Raspberry Pi 4 Model B</div>
+                            <div class="equipment-quantity">Số lượng: 01</div>
+                            <div class="equipment-price">1.500.000đ</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Webcam HD -->
+                    <div class="equipment-card">
+                        <img src="images/cam.jpg" alt="Webcam HD 1080p" class="equipment-image">
+                        <div class="equipment-info">
+                            <div class="equipment-name">Webcam HD 1080p</div>
+                            <div class="equipment-quantity">Số lượng: 01</div>
+                            <div class="equipment-price">300.000đ</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cảm biến DHT22 -->
+                    <div class="equipment-card">
+                        <img src="images/dht22.jpg" alt="Cảm biến DHT22" class="equipment-image">
+                        <div class="equipment-info">
+                            <div class="equipment-name">Cảm biến DHT22</div>
+                            <div class="equipment-quantity">Số lượng: 01</div>
+                            <div class="equipment-price">150.000đ</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Module Relay -->
+                    <div class="equipment-card">
+                        <img src="images/relay.jpg" alt="Module Relay" class="equipment-image">
+                        <div class="equipment-info">
+                            <div class="equipment-name">Module Relay</div>
+                            <div class="equipment-quantity">Số lượng: 02</div>
+                            <div class="equipment-price">30.000đ</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Motor bơm nước -->
+                    <div class="equipment-card">
+                        <img src="images/moto.jpg" alt="Motor bơm nước mini 12v" class="equipment-image">
+                        <div class="equipment-info">
+                            <div class="equipment-name">Motor bơm nước mini</div>
+                            <div class="equipment-quantity">Số lượng: 01</div>
+                            <div class="equipment-price">Tận dụng</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Bảng tổng hợp chi phí</h3>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>TT</th>
+                                <th>THIẾT BỊ</th>
+                                <th>SỐ LƯỢNG</th>
+                                <th>THÀNH TIỀN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>ESP32 32 pins</td>
+                                <td>01</td>
+                                <td>100.000đ</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Module relay</td>
+                                <td>02</td>
+                                <td>30.000đ</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Raspberry Pi 4 Model B</td>
+                                <td>01</td>
+                                <td>1.500.000đ</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Webcam HD 1080p</td>
+                                <td>01</td>
+                                <td>300.000đ</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Adaptor 12V - 2A DC</td>
+                                <td>01</td>
+                                <td>45.000đ</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>Cảm biến DHT22</td>
+                                <td>01</td>
+                                <td>150.000đ</td>
+                            </tr>
+                            <tr style="background: var(--accent-green); color: white; font-weight: bold;">
+                                <td colspan="3">TỔNG CỘNG</td>
+                                <td>2.125.000đ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Nguyên lý hoạt động -->
+        <section id="section5" class="section">
+            <h2 class="section-title">NGUYÊN LÝ HOẠT ĐỘNG</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Quy trình vận hành tự động</h3>
+                
+                <ol>
+                    <li>Cứ sau mỗi 8 tiếng, ESP32 gửi tín hiệu yêu cầu Raspberry Pi khởi chạy</li>
+                    <li>Raspberry Pi bật camera, chụp ảnh và gửi vào mô hình YOLO để phân tích</li>
+                    <li>Dựa trên kết quả nhận diện, Raspberry Pi gửi dữ liệu giai đoạn sinh trưởng về ESP32</li>
+                    <li>ESP32 chạy chương trình trồng nấm tự động tương ứng với từng giai đoạn</li>
+                    <li>Hệ thống điều khiển các thiết bị: đèn chiếu sáng, máy phun sương</li>
+                </ol>
+            </div>
+        </section>
+
+      <!-- Section 6: Video & Phỏng vấn -->
+<section id="section6" class="section">
+    <h2 class="section-title">VIDEO PHỎNG VẤN VÀ TRIỂN KHAI THỰC TẾ</h2>
+    
+    <div class="video-section">
+        <!-- PHẦN 1: VIDEO PHỎNG VẤN -->
+        <h3 style="text-align: center; color: var(--primary-blue); margin-bottom: 2rem;">
+            <i class="fas fa-video"></i> PHỎNG VẤN CHỦ TRẠI NẤM GIANG PHONG
+        </h3>
+        
+        <div class="video-container">
+            <!-- VIDEO 1: PHỎNG VẤN CHỦ TRẠI NẤM -->
+            <video controls style="width: 100%; height: auto;">
+                <source src="videos/chuphonghd.mp4" type="video/mp4">
+                Trình duyệt của bạn không hỗ trợ video.
+            </video>
+            <div class="video-caption">
+                <h3>Trao đổi với chủ trại nấm Giang Phong</h3>
+                <p>Thảo luận về thực trạng và khó khăn trong quá trình trồng nấm thủ công</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 1rem; text-align: center;">
+            <p style="font-style: italic; color: var(--text-light);">
+                Video ghi lại cuộc trao đổi trực tiếp với chủ trại nấm về những khó khăn thực tế 
+                trong quá trình trồng nấm thủ công và mong muốn ứng dụng công nghệ để nâng cao hiệu quả.
+            </p>
+        </div>
+    </div>
+    
+    <div class="video-section" style="margin-top: 4rem;">
+        <!-- PHẦN 2: VIDEO DEMO NHẬN DIỆN NẤM -->
+        <h3 style="text-align: center; color: var(--primary-blue); margin-bottom: 2rem;">
+            <i class="fas fa-robot"></i> DEMO NHẬN DIỆN NẤM BẰNG AI
+        </h3>
+        
+        <div class="video-container">
+            <!-- VIDEO 2: DEMO NHẬN DIỆN NẤM -->
+            <video controls style="width: 100%; height: auto;">
+                <source src="videos/demoPi.mp4" type="video/mp4">
+                Trình duyệt của bạn không hỗ trợ video.
+            </video>
+            <div class="video-caption">
+                <h3>Demo hệ thống nhận diện nấm tự động</h3>
+                <p>Trình diễn mô hình AI phát hiện và phân loại nấm trong thời gian thực</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 1rem; text-align: center;">
+            <p style="font-style: italic; color: var(--text-light);">
+                Video demo quá trình hệ thống AI nhận diện nấm, 
+                phát hiện sâu bệnh và đưa ra cảnh báo tự động.
+            </p>
+        </div>
+    </div>
+    
+    <div class="video-section" style="margin-top: 4rem;">
+        <!-- PHẦN 3: VIDEO MÔ HÌNH THỰC TẾ -->
+        <h3 style="text-align: center; color: var(--primary-blue); margin-bottom: 2rem;">
+            <i class="fas fa-cogs"></i> TRIỂN KHAI THỰC TẾ TẠI TRẠI NẤM
+        </h3>
+        
+        <div class="video-container">
+            <!-- VIDEO 3: MÔ HÌNH TRIỂN KHAI THỰC TẾ -->
+            <video controls style="width: 100%; height: auto;">
+                <source src="videos/thucte.mp4" type="video/mp4">
+                Trình duyệt của bạn không hỗ trợ video.
+            </video>
+            <div class="video-caption">
+                <h3>Vận hành hệ thống tại trại nấm</h3>
+                <p>Ghi lại quá trình hoạt động của mô hình</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 1rem; text-align: center;">
+            <p style="font-style: italic; color: var(--text-light);">
+                Video ghi lại toàn bộ quá trình triển khai hệ thống tại trại nấm thực tế, vận hành và theo dõi kết quả.
+            </p>
+        </div>
+    </div>
+</section>
+
+        <!-- Section 7: Hình ảnh thực tế -->
+        <section id="section7" class="section">
+            <h2 class="section-title">HÌNH ẢNH TRIỂN KHAI THỰC TẾ</h2>
+            
+            <div class="gallery-section">
+                <div class="gallery-grid">
+                    <!-- Hình 1: Sơ đồ mạch điện -->
+                    <div class="media-item">
+                        <img src="images/sodomach.jpg" alt="Sơ đồ mạch điện" class="media-image">
+                        <div class="media-caption">
+                            <h4>Sơ đồ mạch điện hệ thống</h4>
+                            <p>Thiết kế chi tiết sơ đồ kết nối các thiết bị IoT</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Hình 2: Lắp đặt trong thực tế -->
+                    <div class="media-item">
+                        <img src="images/thucte1.jpg" alt="Lắp đặt thực tế" class="media-image">
+                        <div class="media-caption">
+                            <h4>Lắp đặt hệ thống tại trại nấm</h4>
+                            <p>Quá trình lắp đặt thiết bị tại trại nấm Giang Phong</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Hình 3: Sử dụng thực tế -->
+                    <div class="media-item">
+                        <img src="images/dulieu1.jpg" alt="Sử dụng thực tế" class="media-image">
+                        <div class="media-caption">
+                            <h4>Sử dụng hệ thống trong thực tế</h4>
+                            <p>Hệ thống đang hoạt động và giám sát nấm bào ngư</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Hình 4: Kiểm tra vận hành -->
+                    <div class="media-item">
+                        <img src="images/thucte2.jpg" alt="Kiểm tra vận hành" class="media-image">
+                        <div class="media-caption">
+                            <h4>Kiểm tra vận hành hệ thống</h4>
+                            <p>Thành viên nhóm kiểm tra hoạt động của hệ thống</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Hình 5: Kết quả nhận diện -->
+                    <div class="media-item">
+                        <img src="images/check.jpg" alt="Kết quả nhận diện" class="media-image">
+                        <div class="media-caption">
+                            <h4>Kết quả nhận diện nấm bằng AI</h4>
+                            <p>Mô hình YOLO phát hiện nấm non và trưởng thành</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Hình 6: Giao diện điều khiển -->
+                    <div class="media-item">
+                        <img src="images/mb.jpg" alt="Giao diện điều khiển" class="media-image">
+                        <div class="media-caption">
+                            <h4>Giao diện điều khiển trên điện thoại</h4>
+                            <p>Ứng dụng Blynk để giám sát và điều khiển từ xa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       <!-- Section 8: Giải thưởng -->
+<section id="section8" class="section">
+    <h2 class="section-title">THÀNH TỰU</h2>
+    
+    <div class="award-section">
+        <div class="award-content">
+            <h2 class="award-title">
+                <i class="fas fa-trophy"></i> CUỘC THI SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG
+            </h2>
+            <h3 style="text-align: center; color: var(--primary-blue); margin-bottom: 2rem;">
+                Tỉnh Quảng Ngãi - Năm 2025
+            </h3>
+            
+            <div class="award-details">
+                <div class="award-video">
+                    <!-- VIDEO giải thưởng -->
+                    <video controls style="width: 100%; height: auto; border-radius: 8px;">
+                        <source src="videos/thanhtuu.mp4" type="video/mp4">
+                        Trình duyệt của bạn không hỗ trợ video.
+                    </video>
+                    <div style="text-align: center; margin-top: 10px; font-style: italic; color: #666;">
+                        Video về giải thưởng cuộc thi
+                    </div>
+                </div>
+                
+                <div class="award-text">
+                    <h3 style="color: var(--accent-gold); margin-bottom: 1rem;">KẾT QUẢ ĐẠT ĐƯỢC</h3>
+                    <p><strong>Giải thưởng:</strong> Giải Nhì Cuộc thi Sáng tạo Thanh thiếu niên Nhi đồng tỉnh Quảng Ngãi</p>
+                    <p><strong>Lĩnh vực:</strong> Giải pháp kỹ thuật ứng phó với biến đổi khí hậu</p>
+                    <p><strong>Năm tổ chức:</strong> 2025</p>
+                    <p><strong>Đơn vị tổ chức:</strong> Liên hiệp các Hội Khoa học và Kỹ thuật tỉnh Quảng Ngãi</p>
+                    
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(243, 156, 18, 0.1); border-radius: 8px;">
+                        <h4 style="color: var(--primary-blue); margin-bottom: 1rem;">Ý NGHĨA GIẢI THƯỞNG</h4>
+                        <p>Giải thưởng ghi nhận sự sáng tạo, tính ứng dụng thực tiễn cao của đề tài trong việc giải quyết vấn đề nông nghiệp tại địa phương, đồng thời khẳng định hướng đi đúng đắn trong việc ứng dụng công nghệ AI và IoT vào sản xuất nông nghiệp thông minh.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+            
+        <!-- Section 9: Code & Thuật toán - HOÀN CHỈNH -->
+        <section id="section9" class="section">
+            <h2 class="section-title">CODE & THUẬT TOÁN</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Kết quả nhận diện bằng YOLO với Bounding Box</h3>
+                
+                <div class="gallery-grid">
+                    <!-- Hình 1: Bounding Box phát hiện nấm non -->
+                    <div class="media-item">
+                        <img src="images/bbox2.jpg" alt="Bounding Box nấm non" class="media-image">
+                        <div class="media-caption">
+                            <h4>Mô tả Bounding box </h4>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- Hình 2: Bounding Box phát hiện nấm trưởng thành -->
+                    <div class="media-item">
+                        <img src="images/huduoi.jpg" alt="Bounding Box nấm trưởng thành" class="media-image">
+                        <div class="media-caption">
+                            <h4>Phát hiện nấm hư phía DƯỚI </h4>
+                            <p>Bounding box màu xanh lá cây bao quanh nấm HƯ</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Hình 3: Bounding Box phát hiện nấm hỏng -->
+                    <div class="media-item">
+                        <img src="images/toadonamhutren.jpg" alt="Bounding Box nấm hỏng" class="media-image">
+                        <div class="media-caption">
+                            <h4>Phát hiện nấm hư phía TREN</h4>
+                            <p>Bounding box màu đỏ bao quanh nấm bị bệnh hoặc hỏng</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem; background: rgba(52, 152, 219, 0.05); padding: 1.5rem; border-radius: 8px;">
+                    <h4 style="color: var(--primary-blue); margin-bottom: 1rem;">Giải thích Bounding Box</h4>
+                    <p>Mô hình YOLO trả về 4 giá trị cho mỗi bounding box:</p>
+                    <ul>
+                        <li><strong>x, y:</strong> Tọa độ trung tâm của bounding box (từ 0-1)</li>
+                        <li><strong>w, h:</strong> Chiều rộng và chiều cao của bounding box (từ 0-1)</li>
+                        <li><strong>confidence:</strong> Độ tin cậy của phát hiện (từ 0-1)</li>
+                        <li><strong>class:</strong> Lớp đối tượng (0: NON, 1: TRUONG-THANH)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Tải xuống mã nguồn đầy đủ</h3>
+                <p>Chúng tôi cung cấp toàn bộ mã nguồn của dự án để các bạn quan tâm có thể tham khảo, nghiên cứu và phát triển thêm.</p>
+                
+                <div class="code-download-section">
+                    <h3 style="text-align: center; color: white; margin-bottom: 2rem; font-size: 1.8rem;">
+                        <i class="fas fa-code"></i> MÃ NGUỒN DỰ ÁN
+                    </h3>
+                    
+                    <div class="code-download-grid">
+                        <!-- File code ESP32 -->
+                        <div class="code-file-card">
+                            <div class="code-file-icon">
+                                <i class="fas fa-microchip"></i>
+                            </div>
+                            <div class="code-file-name">ESP32_CONTROL.ino</div>
+                            <div class="code-file-desc">
+                                Code điều khiển ESP32, xử lý cảm biến, điều khiển relay, giao tiếp với Raspberry Pi
+                            </div>
+                            <a href="code/esp32_control.ino" class="download-code-btn" download>
+                                <i class="fas fa-download"></i> Tải file .ino
+                            </a>
+                        </div>
+                        
+                        <!-- File code Raspberry Pi -->
+                        <div class="code-file-card">
+                            <div class="code-file-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="code-file-name">RASPBERRY_PI_AI.py</div>
+                            <div class="code-file-desc">
+                                Code Python xử lý AI với YOLO, chụp ảnh, nhận diện nấm, gửi dữ liệu về ESP32
+                            </div>
+                            <a href="code/raspberry_pi_ai.py" class="download-code-btn" download>
+                                <i class="fas fa-download"></i> Tải file .py
+                            </a>
+                        </div>
+                        
+                        <!-- File model YOLO -->
+                        <div class="code-file-card">
+                            <div class="code-file-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="code-file-name">YOLO_MODEL.zip</div>
+                            <div class="code-file-desc">
+                                Mô hình YOLO đã được huấn luyện để nhận diện nấm bào ngư (bao gồm weights và config)
+                            </div>
+                            <a href="code/yolo_model.zip" class="download-code-btn" download>
+                                <i class="fas fa-download"></i> Tải file .zip
+                            </a>
+                        </div>
+                        
+                        <!-- File toàn bộ dự án -->
+                        <div class="code-file-card">
+                            <div class="code-file-icon">
+                                <i class="fas fa-file-archive"></i>
+                            </div>
+                            <div class="code-file-name">FULL_PROJECT.zip</div>
+                            <div class="code-file-desc">
+                                Toàn bộ mã nguồn, tài liệu, hình ảnh và hướng dẫn triển khai đầy đủ
+                            </div>
+                            <a href="code/full_project.zip" class="download-code-btn" download>
+                                <i class="fas fa-download"></i> Tải toàn bộ
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 3rem; text-align: center; color: #bdc3c7;">
+                        <p><i class="fas fa-info-circle"></i> Tất cả mã nguồn được phát hành dưới giấy phép MIT - Miễn phí sử dụng cho mục đích nghiên cứu và học tập.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Preview Code chính</h3>
+                
+                <!-- Code ESP32 -->
+                <div class="code-preview-section">
+                    <div class="code-header">
+                        <span class="code-filename">esp32_control.ino</span>
+                        <span class="code-language">Arduino C++</span>
+                    </div>
+                    <div class="code-content">
+                        <pre><span class="code-line-number">1</span>  <span class="code-comment">// ESP32 code for Mushroom Smart Farming System</span>
+<span class="code-line-number">2</span>  <span class="code-comment">// Author: Bui Huu Trong - Class 12A4</span>
+<span class="code-line-number">3</span>  
+<span class="code-line-number">4</span>  <span class="code-keyword">#include</span> &lt;WiFi.h&gt;
+<span class="code-line-number">5</span>  <span class="code-keyword">#include</span> &lt;HTTPClient.h&gt;
+<span class="code-line-number">6</span>  <span class="code-keyword">#include</span> &lt;DHT.h&gt;
+<span class="code-line-number">7</span>  
+<span class="code-line-number">8</span>  <span class="code-comment">// Pin definitions</span>
+<span class="code-line-number">9</span>  <span class="code-keyword">#define</span> DHTPIN 4
+<span class="code-line-number">10</span> <span class="code-keyword">#define</span> DHTTYPE DHT22
+<span class="code-line-number">11</span> <span class="code-keyword">#define</span> PUMP_PIN 26
+<span class="code-line-number">12</span> <span class="code-keyword">#define</span> LIGHT_PIN 27
+<span class="code-line-number">13</span> 
+<span class="code-line-number">14</span> DHT dht(DHTPIN, DHTTYPE);
+<span class="code-line-number">15</span> <span class="code-keyword">const</span> <span class="code-keyword">char</span>* yolo_host = <span class="code-string">"http://192.168.1.100:5000/detect"</span>;
+<span class="code-line-number">16</span> 
+<span class="code-line-number">17</span> <span class="code-keyword">void</span> <span class="code-function">setup</span>() {
+<span class="code-line-number">18</span>   Serial.begin(115200);
+<span class="code-line-number">19</span>   pinMode(PUMP_PIN, OUTPUT);
+<span class="code-line-number">20</span>   pinMode(LIGHT_PIN, OUTPUT);
+<span class="code-line-number">21</span>   dht.begin();
+<span class="code-line-number">22</span>   WiFi.begin(<span class="code-string">"SSID"</span>, <span class="code-string">"PASSWORD"</span>);
+<span class="code-line-number">23</span> }
+<span class="code-line-number">24</span> 
+<span class="code-line-number">25</span> <span class="code-keyword">void</span> <span class="code-function">xuLyGiaiDoan</span>(String giai_doan) {
+<span class="code-line-number">26</span>   <span class="code-keyword">if</span> (giai_doan == <span class="code-string">"NON"</span>) {
+<span class="code-line-number">27</span>     digitalWrite(LIGHT_PIN, HIGH);
+<span class="code-line-number">28</span>     digitalWrite(PUMP_PIN, HIGH);
+<span class="code-line-number">29</span>     delay(10 * 60 * 1000);
+<span class="code-line-number">30</span>     digitalWrite(PUMP_PIN, LOW);
+<span class="code-line-number">31</span>     digitalWrite(LIGHT_PIN, LOW);
+<span class="code-line-number">32</span>   }
+<span class="code-line-number">33</span> }</pre>
+                    </div>
+                </div>
+                
+                <!-- Code Python Raspberry Pi -->
+                <div class="code-preview-section" style="margin-top: 2rem;">
+                    <div class="code-header">
+                        <span class="code-filename">raspberry_pi_ai.py</span>
+                        <span class="code-language">Python 3.9</span>
+                    </div>
+                    <div class="code-content">
+                        <pre><span class="code-line-number">1</span>  <span class="code-comment"># Raspberry Pi AI Code for Mushroom Detection</span>
+<span class="code-line-number">2</span>  <span class="code-comment"># Author: Bui Thien Trieu - Class 12A1</span>
+<span class="code-line-number">3</span>  
+<span class="code-line-number">4</span>  <span class="code-keyword">from</span> ultralytics <span class="code-keyword">import</span> YOLO
+<span class="code-line-number">5</span>  <span class="code-keyword">import</span> cv2
+<span class="code-line-number">6</span>  <span class="code-keyword">import</span> time
+<span class="code-line-number">7</span>  <span class="code-keyword">import</span> requests
+<span class="code-line-number">8</span>  
+<span class="code-line-number">9</span>  <span class="code-comment"># Load trained YOLO model</span>
+<span class="code-line-number">10</span> model = YOLO(<span class="code-string">"best.pt"</span>)
+<span class="code-line-number">11</span> 
+<span class="code-line-number">12</span> <span class="code-keyword">def</span> <span class="code-function">capture_and_detect</span>():
+<span class="code-line-number">13</span>     <span class="code-comment"># Open camera</span>
+<span class="code-line-number">14</span>     cap = cv2.VideoCapture(0)
+<span class="code-line-number">15</span>     time.sleep(2)
+<span class="code-line-number">16</span>     
+<span class="code-line-number">17</span>     <span class="code-comment"># Capture image</span>
+<span class="code-line-number">18</span>     ret, frame = cap.read()
+<span class="code-line-number">19</span>     <span class="code-keyword">if</span> ret:
+<span class="code-line-number">20</span>         <span class="code-comment"># Run YOLO detection</span>
+<span class="code-line-number">21</span>         results = model(frame)
+<span class="code-line-number">22</span>         detections = results[0].boxes.data.cpu().numpy()
+<span class="code-line-number">23</span>         
+<span class="code-line-number">24</span>         <span class="code-comment"># Process detection results</span>
+<span class="code-line-number">25</span>         <span class="code-keyword">if</span> len(detections) == 0:
+<span class="code-line-number">26</span>             classification = <span class="code-string">"unknown"</span>
+<span class="code-line-number">27</span>         <span class="code-keyword">else</span>:
+<span class="code-line-number">28</span>             detected_classes = [model.names[int(cls)] <span class="code-keyword">for</span> cls <span class="code-keyword">in</span> detections[:, <span class="code-string">5</span>]]
+<span class="code-line-number">29</span>             <span class="code-keyword">if</span> <span class="code-string">"NON"</span> <span class="code-keyword">in</span> detected_classes:
+<span class="code-line-number">30</span>                 classification = <span class="code-string">"NON"</span>
+<span class="code-line-number">31</span>             <span class="code-keyword">elif</span> <span class="code-string">"TRUONG-THANH"</span> <span class="code-keyword">in</span> detected_classes:
+<span class="code-line-number">32</span>                 classification = <span class="code-string">"TRUONG-THANH"</span>
+<span class="code-line-number">33</span>         
+<span class="code-line-number">34</span>         <span class="code-comment"># Send result to ESP32</span>
+<span class="code-line-number">35</span>         requests.get(f<span class="code-string">"http://192.168.1.28:8080/data"</span>, params={<span class="code-string">"data"</span>: classification})
+<span class="code-line-number">36</span>         
+<span class="code-line-number">37</span>         <span class="code-comment"># Draw bounding boxes for visualization</span>
+<span class="code-line-number">38</span>         <span class="code-keyword">for</span> det <span class="code-keyword">in</span> detections:
+<span class="code-line-number">39</span>             x1, y1, x2, y2, conf, cls = det
+<span class="code-line-number">40</span>             <span class="code-comment"># Draw rectangle</span>
+<span class="code-line-number">41</span>             cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+<span class="code-line-number">42</span>             
+<span class="code-line-number">43</span>         <span class="code-comment"># Save image with bounding boxes</span>
+<span class="code-line-number">44</span>         cv2.imwrite(<span class="code-string">"detection_result.jpg"</span>, frame)
+<span class="code-line-number">45</span>         cap.release()
+<span class="code-line-number">46</span>         <span class="code-keyword">return</span> classification</pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">Mô tả thuật toán chính</h3>
+                
+                <h4 style="color: var(--primary-blue); margin: 1.5rem 0 1rem 0;">1. Thuật toán YOLO nhận diện nấm</h4>
+                <ul>
+                    <li>Sử dụng mô hình YOLO để phát hiện vật thể thời gian thực</li>
+                    <li>Huấn luyện trên dataset 500+ ảnh nấm bào ngư với 2 lớp: NON và TRUONG-THANH</li>
+                    <li>Độ chính xác đạt 92% trên tập test</li>
+                    <li>Xử lý ảnh với OpenCV, resize về 640x640 pixels</li>
+                </ul>
+                
+                <h4 style="color: var(--primary-blue); margin: 1.5rem 0 1rem 0;">2. Thuật toán điều khiển tự động</h4>
+                <ul>
+                    <li>ESP32: Đọc cảm biến DHT22 mỗi 5 phút</li>
+                    <li>Raspberry Pi: Chụp ảnh và chạy YOLO mỗi 8 giờ</li>
+                    <li>Hệ thống phản hồi theo giai đoạn phát triển của nấm</li>
+                    <li>Gửi email cảnh báo khi phát hiện nấm hỏng</li>
+                </ul>
+                
+                <h4 style="color: var(--primary-blue); margin: 1.5rem 0 1rem 0;">3. Kiến trúc hệ thống</h4>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Thành phần</th>
+                                <th>Công nghệ</th>
+                                <th>Chức năng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ESP32</td>
+                                <td>Arduino C++</td>
+                                <td>Điều khiển thiết bị, đọc cảm biến, giao tiếp Wi-Fi</td>
+                            </tr>
+                            <tr>
+                                <td>Raspberry Pi</td>
+                                <td>Python 3.9</td>
+                                <td>Xử lý AI, chạy server Flask, điều khiển camera</td>
+                            </tr>
+                            <tr>
+                                <td>Mô hình AI</td>
+                                <td>YOLO + Ultralytics</td>
+                                <td>Nhận diện nấm và giai đoạn phát triển</td>
+                            </tr>
+                            <tr>
+                                <td>Server Web</td>
+                                <td>Flask + REST API</td>
+                                <td>Giao tiếp giữa Pi và ESP32</td>
+                            </tr>
+                            <tr>
+                                <td>Mobile App</td>
+                                <td>Blynk IoT</td>
+                                <td>Giám sát và điều khiển từ xa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 10: Thành viên -->
+        <section id="section10" class="section">
+            <h2 class="section-title">THÀNH VIÊN THỰC HIỆN</h2>
+            
+            <div class="team-section">
+                <div class="team-grid">
+                    <!-- Thành viên 1: Bùi Thiên Triệu -->
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <!-- THAY THẾ BẰNG ẢNH CHÂN DUNG THẬT -->
+                            <img src="members/trieu.jpg" alt="Bùi Thiên Triệu">
+                        </div>
+                        <h3>Bùi Thiên Triệu</h3>
+                        <div class="member-class">Lớp: 12A1</div>
+                        <div class="member-role">Lập trình AI & Xử lý ảnh</div>
+                        <p>Phát triển mô hình YOLO, xử lý computer vision, huấn luyện mô hình nhận diện nấm, tối ưu hóa thuật toán.</p>
+                    </div>
+                    
+                    <!-- Thành viên 2: Bùi Hửu Trọng -->
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <!-- THAY THẾ BẰNG ẢNH CHÂN DUNG THẬT -->
+                            <img src="members/trong.jpg" alt="Bùi Hửu Trọng">
+                        </div>
+                        <h3>Bùi Hửu Trọng</h3>
+                        <div class="member-class">Lớp: 12A4</div>
+                        <div class="member-role">Thiết kế hệ thống IoT & Phần cứng</div>
+                        <p>Lập trình ESP32, thiết kế mạch điện, lắp đặt hệ thống phần cứng, phát triển giao diện điều khiển.</p>
+                    </div>
+                    
+                    <!-- Giáo viên hướng dẫn -->
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <!-- THAY THẾ BẰNG ẢNH CHÂN DUNG THẬT -->
+                            <img src="members/thayvu.jpg" alt="Thầy Ngô Khắc Vũ">
+                        </div>
+                        <h3>Thầy Ngô Khắc Vũ</h3>
+                        <div class="member-class">Giáo viên hướng dẫn</div>
+                        <div class="member-role">Mentor & Advisor</div>
+                        <p>Hướng dẫn phương pháp nghiên cứu, hỗ trợ kỹ thuật, định hướng phát triển dự án và kết nối với địa phương.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="report-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TRƯỜNG THPT SỐ 2 MỘ ĐỨC</h3>
+                    <p>Địa chỉ: Long Phụng - Quảng Ngãi</p>
+                    <p>Cuộc thi Khoa học Kỹ thuật năm học 2025-2026</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>THÔNG TIN LIÊN HỆ</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Giáo viên hướng dẫn: Ngô Khắc Vũ</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>Điện thoại: 0918 559 450</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email: khkt@thptmoduc2.edu.vn</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>TÀI LIỆU DỰ ÁN</h3>
+                    <p>Báo cáo đầy đủ và mã nguồn dự án</p>
+                    <a href="#" style="display: inline-block; background: var(--accent-green); color: white; padding: 0.8rem 1.5rem; border-radius: 5px; text-decoration: none; margin-top: 1rem;">
+                        <i class="fas fa-download"></i> Tải toàn bộ tài liệu
+                    </a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2025 - BÁO CÁO KHOA HỌC KỸ THUẬT - Trường THPT Số 2 Mộ Đức</p>
+                <p>Đề tài: "Ứng dụng AI và công nghệ IoT trong mô hình trồng nấm bào ngư"</p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-links a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Scroll to section
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Update active nav link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    currentSection = '#' + section.id;
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Print functionality
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+        });
+        
+        // Download link alerts
+        document.querySelectorAll('.download-code-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if(this.getAttribute('href') === '#') {
+                    e.preventDefault();
+                    alert('Vui lòng tạo thư mục "code/" và thêm file thực tế để kích hoạt tính năng tải về!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
